@@ -105,15 +105,17 @@ m_PackageAssets:
         - 2.0.1
         - 2.0.3
         - 2.0.4
+        - 2.0.5
         - 2.1.0-preview.3
         - 2.1.0-preview.5
         - 2.1.0-preview.6
         compatible:
         - 2.0.4
+        - 2.0.5
         - 2.1.0-preview.3
         - 2.1.0-preview.5
         - 2.1.0-preview.6
-        verified: 2.0.4
+        verified: 2.0.5
       dependencies: []
       resolvedDependencies: []
       keywords:
