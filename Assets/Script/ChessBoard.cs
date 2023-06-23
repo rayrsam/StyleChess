@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 using Vector3 = UnityEngine.Vector3;
 
@@ -16,7 +17,7 @@ public class ChessBoard : MonoBehaviour
     [SerializeField] private GameObject endScreen;
     
 
-        [Header("Prefabs && Materials")] 
+    [Header("Prefabs && Materials")] 
     [SerializeField] private GameObject[] prefabs;
     [SerializeField] private Material[] teamMaterials;
 
@@ -48,6 +49,8 @@ public class ChessBoard : MonoBehaviour
     {
         GenerateTiles(TileCountX, TileCountY);
         SpawnPieces();
+        boardObject.SetActive(true);
+        _turn = 0;
     }
     private void Update()
     {
@@ -263,7 +266,7 @@ public class ChessBoard : MonoBehaviour
         piece.curY = -1;
         piece.alive = 0;
         if (piece.team == White) _whitePieces.Remove(piece);
-        else _blackPieces.Remove(piece);;
+        else _blackPieces.Remove(piece);
 
         piece.transform.localScale = Vector3.zero;
     }
@@ -329,7 +332,6 @@ public class ChessBoard : MonoBehaviour
         foreach (var move in unavailableMoves) possibleMoves.Remove(move);
         return possibleMoves;
     }
-
     private void CheckForCheckMate(int team) //0 - OK, 1 - StaleMate 2 - CheckMate
     {
         var attackingTeam = new List<ChessPiece>();
@@ -372,7 +374,6 @@ public class ChessBoard : MonoBehaviour
                     }
         return targetKing;
     }
-
     private void SetTeams(int attackingTeam, ref List<ChessPiece> attacking, ref List<ChessPiece> defending)
     {
         if (attackingTeam == White)
@@ -392,9 +393,7 @@ public class ChessBoard : MonoBehaviour
     {
         boardObject.SetActive(true);
         startScreen.SetActive(false);
-        _turn = 0;
     }
-    
     public void Reset()
     {
         endScreen.transform.GetChild(0).gameObject.SetActive(false);
@@ -406,9 +405,8 @@ public class ChessBoard : MonoBehaviour
             Destroy(boardObject.transform.GetChild(i).gameObject);
         
         Awake();
-        Start();
+        //Start();
     }
-
     private void CheckMate(int team)
     {
         _turn = -1;
@@ -416,9 +414,8 @@ public class ChessBoard : MonoBehaviour
         endScreen.SetActive(true);
         endScreen.transform.GetChild(team).gameObject.SetActive(true);
     }
-    
     public void Exit()
     {
-        Application.Quit();
+        SceneManager.LoadScene(0);
     }
 }
