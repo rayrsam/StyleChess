@@ -473,7 +473,7 @@ public class ChessBoard : MonoBehaviour
         
         var newButton = Instantiate(buttonPref, transform);
         newButton.transform.SetParent(promotionScreen);
-        newButton.transform.position = new Vector3(100, 574 - offset, 0);
+        newButton.transform.position = promotionScreen.position + new Vector3(0, 350 - offset, 0);
         newButton.transform.rotation = new Quaternion(0, 0, 0, 0);
         
         newButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
