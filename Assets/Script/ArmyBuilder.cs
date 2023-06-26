@@ -15,4 +15,10 @@ public class ArmyBuilder : MonoBehaviour
     {
         
     }
+
+    private Army Create()
+    {
+        
+        return null;
+    }
 }

@@ -27,6 +27,14 @@ public class Army {
         (int)ChessPieceType.Rook
     };
     
+    public List<int> PromotionList = new List<int>
+    {
+        (int)ChessPieceType.Rook,
+        (int)ChessPieceType.Knight,
+        (int)ChessPieceType.Bishop,
+        (int)ChessPieceType.Queen,
+    };
+    
     
     public void SetArmy(List<int> pawnList, List<int> figureList)
     {

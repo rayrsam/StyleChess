@@ -965,10 +965,12 @@ m_PackageAssets:
         - 1.7.2
         - 1.7.3
         - 1.7.4
+        - 1.7.5
         - 1.8.0
         - 1.8.1
         - 1.8.2
         - 1.8.3
+        - 1.8.4
         compatible:
         - 1.4.8
         - 1.5.0-pre.2
@@ -1001,10 +1003,12 @@ m_PackageAssets:
         - 1.7.2
         - 1.7.3
         - 1.7.4
+        - 1.7.5
         - 1.8.0
         - 1.8.1
         - 1.8.2
         - 1.8.3
+        - 1.8.4
         verified: 1.4.8
       dependencies:
       - name: com.unity.modules.director
@@ -3113,6 +3117,7 @@ m_PackageAssets:
         - 2.1.0-pre.18
         - 2.1.1
         - 2.1.4
+        - 2.2.0
         compatible:
         - 0.0.9-preview.1
         - 0.0.9-preview.2
@@ -3583,6 +3588,7 @@ m_PackageAssets:
         - 1.0.6
         - 2.0.2
         - 2.0.3
+        - 2.0.4
         compatible:
         - 0.1.5-preview
         - 0.1.6-preview
@@ -3592,6 +3598,7 @@ m_PackageAssets:
         - 1.0.6
         - 2.0.2
         - 2.0.3
+        - 2.0.4
         verified: 1.0.6
       dependencies: []
       resolvedDependencies: []
