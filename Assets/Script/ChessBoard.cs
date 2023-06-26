@@ -427,7 +427,7 @@ public class ChessBoard : MonoBehaviour
     public void Start()
     {
         boardObject.SetActive(true);
-        startScreen.SetActive(false);
+        //startScreen.SetActive(false);
     }
     public void Reset()
     {

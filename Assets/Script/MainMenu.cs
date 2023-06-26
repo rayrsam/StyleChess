@@ -37,7 +37,7 @@ public class MainMenu : MonoBehaviour
     
     public void OnBuild()
     {
-        
+        SceneManager.LoadScene(2);
     }
 
     public void OnExit()
