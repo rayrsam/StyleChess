@@ -3,6 +3,13 @@ using UnityEngine;
 
 public class King : ChessPiece
 {
+
+    public List<ChessPiece> availablePawns;
+    public List<ChessPiece> availableLightPieces;
+    public List<ChessPiece> availableHeavyPieces;
+    public int powerPointsLimit;
+    public int stylePointsLimit;
+
     public override List<Vector2Int> GetMoves(ref ChessPiece[,] board, int tileCountX, int tileCountY)
     {
         var moves = new List<Vector2Int>();

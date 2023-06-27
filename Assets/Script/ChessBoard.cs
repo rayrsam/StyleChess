@@ -53,6 +53,8 @@ public class ChessBoard : MonoBehaviour
     private bool _paused;
     private ChessPiece _promoting;
 
+    private bool _isPromoting = false;
+
     private void Awake()
     {
         GenerateTiles(TileCountX, TileCountY);
@@ -195,11 +197,11 @@ public class ChessBoard : MonoBehaviour
         for (var x = 0; x < TileCountX; x++)
         {
             //white
-            _chessPieces[x, 1] = SpawnSinglePiece((ChessPieceType)_whiteArmy.ArmyPawnList[x], White);
-            _chessPieces[x, 0] = SpawnSinglePiece((ChessPieceType)_whiteArmy.ArmyFigureList[x], White);
+            _chessPieces[x, 1] = SpawnSinglePiece((ChessPieceType)_whiteArmy.ArmyPiecesList[0][x], White);
+            _chessPieces[x, 0] = SpawnSinglePiece((ChessPieceType)_whiteArmy.ArmyPiecesList[1][x], White);
             //black
-            _chessPieces[x, 6] = SpawnSinglePiece((ChessPieceType)_blackArmy.ArmyPawnList[x], Black);
-            _chessPieces[x, 7] = SpawnSinglePiece((ChessPieceType)_blackArmy.ArmyFigureList[x], Black);
+            _chessPieces[x, 6] = SpawnSinglePiece((ChessPieceType)_blackArmy.ArmyPiecesList[0][x], Black);
+            _chessPieces[x, 7] = SpawnSinglePiece((ChessPieceType)_blackArmy.ArmyPiecesList[1][x], Black);
         }
         PosAll();
     }
@@ -251,6 +253,7 @@ public class ChessBoard : MonoBehaviour
 
     private bool Move(ChessPiece piece, int x, int y)
     {
+        if (_isPromoting) return false;
         if (piece.curX == x && piece.curY == y || !_selectedMoves.Contains(new Vector2Int(x, y))) return false;
         
         if (piece.type == ChessPieceType.Pawn)
@@ -283,21 +286,16 @@ public class ChessBoard : MonoBehaviour
     private bool Promotion(ChessPiece pawn, int x, int y)
     {
         _promoting = pawn;
-        
-        var promotionList = new List<int>
-            {
-                (int)ChessPieceType.Rook,
-                (int)ChessPieceType.Knight,
-                (int)ChessPieceType.Bishop,
-                (int)ChessPieceType.Queen,
-            };
-        
-        
-        CreateButton(0, "Rook", x, y);
-        CreateButton(1, "Knight", x, y);
-        CreateButton(2, "Bishop", x, y);
-        CreateButton(3, "Queen", x, y);
+        var promotionList = new List<int>();
+        if (pawn.team == 0) promotionList = _whiteArmy.PromotionList;
+        else promotionList = _blackArmy.PromotionList;
 
+        for (int i = 0; i < promotionList.Count; i++)
+        {
+            CreateButton(i, Enum.GetName(typeof(ChessPieceType), promotionList[i]), x, y);
+        }
+
+        _isPromoting = true;
         return true;
     }
     private void GetPromotedPiece(ChessPieceType pieceType, int x, int y)
@@ -310,6 +308,7 @@ public class ChessBoard : MonoBehaviour
         
         OnPieceDestroy(_promoting);
         _promoting = null;
+        _isPromoting = false;
     }
     
     private List<Vector2Int> PreventCheck(ChessPiece piece, List<Vector2Int> possibleMoves)
