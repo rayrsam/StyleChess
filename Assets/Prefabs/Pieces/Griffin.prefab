@@ -54,10 +54,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f0e4560aee8d7904f9313fa74c4007bb, type: 3}
       propertyPath: m_Name
-      value: griffin figurine Variant
+      value: Griffin
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f0e4560aee8d7904f9313fa74c4007bb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3990222931149882455}
   m_SourcePrefab: {fileID: 100100000, guid: f0e4560aee8d7904f9313fa74c4007bb, type: 3}
+--- !u!1 &561877756621882556 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f0e4560aee8d7904f9313fa74c4007bb, type: 3}
+  m_PrefabInstance: {fileID: 796390593007270381}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3990222931149882455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561877756621882556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f72aae469add284db06a7e3bcdb3361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 0
+  curX: 0
+  curY: 0
+  type: 0
+  alive: 1

@@ -54,10 +54,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ed286726d704e6740b8e53804e8ecca3, type: 3}
       propertyPath: m_Name
-      value: the falcon figurine Variant
+      value: Falcon
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ed286726d704e6740b8e53804e8ecca3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 186149310792208925}
   m_SourcePrefab: {fileID: 100100000, guid: ed286726d704e6740b8e53804e8ecca3, type: 3}
+--- !u!1 &181617303165125805 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ed286726d704e6740b8e53804e8ecca3, type: 3}
+  m_PrefabInstance: {fileID: 1028036948783397372}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &186149310792208925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 181617303165125805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f08df98bca1caee45abd0b79d978353d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 0
+  curX: 0
+  curY: 0
+  type: 0
+  alive: 1

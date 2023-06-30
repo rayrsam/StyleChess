@@ -299,7 +299,6 @@ public class ArmyBuilder : MonoBehaviour
             return -Vector2Int.one; //[-1, -1]
         } catch (Exception) { return -Vector2Int.one;}
     }
-
     private void Move(ChessPiece piece, int x, int y)
     {
         if (_isPromoting) return;
@@ -356,9 +355,8 @@ public class ArmyBuilder : MonoBehaviour
         _isPromoting = false;
     }
     
-
+     
     //UI
-    
     private void CreatePromotionButton(int num, string text, int x, int y)
     {
         var offset = num * 50;

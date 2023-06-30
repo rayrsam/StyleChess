@@ -149,30 +149,52 @@ public class ChessBoard : MonoBehaviour
     //generate
     private void SetArmy()
     {
-        List<ChessPieceType> pawnList = new (){
-            ChessPieceType.Pawn,
-            ChessPieceType.Pawn,
-            ChessPieceType.Pawn,
-            ChessPieceType.Pawn,
-            ChessPieceType.Pawn,
-            ChessPieceType.Pawn,
-            ChessPieceType.Pawn,
-            ChessPieceType.Pawn
+        List<ChessPieceType> whitePawnList = new (){
+            ChessPieceType.None,
+            ChessPieceType.None,
+            ChessPieceType.None,
+            ChessPieceType.None,
+            ChessPieceType.None,
+            ChessPieceType.None,
+            ChessPieceType.None,
+            ChessPieceType.None
         };
-        List <ChessPieceType> figureList = new()
+        List <ChessPieceType> whiteFigureList = new()
         {
-            ChessPieceType.Rook,
-            ChessPieceType.Knight,
-            ChessPieceType.Bishop,
-            ChessPieceType.Queen,
+            ChessPieceType.Champion,
+            ChessPieceType.Hunter,
+            ChessPieceType.Falcon,
+            ChessPieceType.Griffin,
             ChessPieceType.King,
             ChessPieceType.Bishop,
             ChessPieceType.Knight,
             ChessPieceType.Rook
         };
         
-        _whiteArmy.SetArmy(pawnList, figureList);
-        _blackArmy.SetArmy(pawnList, figureList);
+        List<ChessPieceType> blackPawnList = new (){              
+            ChessPieceType.None,                             
+            ChessPieceType.None,                             
+            ChessPieceType.None,                             
+            ChessPieceType.None,                             
+            ChessPieceType.None,                             
+            ChessPieceType.None,                             
+            ChessPieceType.None,                             
+            ChessPieceType.None                              
+        };                                                   
+        List <ChessPieceType> blackFigureList = new()             
+        {                                                    
+            ChessPieceType.Champion,
+            ChessPieceType.Hunter,
+            ChessPieceType.Falcon,
+            ChessPieceType.Griffin,
+            ChessPieceType.King,
+            ChessPieceType.Bishop,
+            ChessPieceType.Knight,
+            ChessPieceType.Rook                    
+        };                                                   
+        
+        _whiteArmy.SetArmy(whitePawnList, whiteFigureList);
+        _blackArmy.SetArmy(blackPawnList, blackFigureList);
     }
     private void GenerateTiles(int tileCountX, int tileCountY)
     {
@@ -234,6 +256,7 @@ public class ChessBoard : MonoBehaviour
     }
     private ChessPiece SpawnSinglePiece(ChessPieceType type, int team)
     {
+        if (type == ChessPieceType.None) return null;
         var piece = Instantiate(prefabs[(int)type - 1], transform).GetComponent<ChessPiece>();
         
         piece.type = type;
