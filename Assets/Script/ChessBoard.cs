@@ -20,7 +20,7 @@ public class ChessBoard : MonoBehaviour
     [SerializeField] private GameObject startScreen;
     [SerializeField] private GameObject endScreen;
     [SerializeField] private GameObject pauseScreen;
-    [SerializeField] private Transform promotionScreen;
+    [SerializeField] private GameObject promotionScreen;
     
     [Header("Prefabs && Materials")] 
     [SerializeField] private GameObject[] prefabs;
@@ -53,9 +53,12 @@ public class ChessBoard : MonoBehaviour
     private bool _paused;
     private ChessPiece _promoting;
 
+    private bool _isPromoting = false;
+
     private void Awake()
     {
         GenerateTiles(TileCountX, TileCountY);
+        SetArmy();
         SpawnPieces();
         boardObject.SetActive(true);
         _turn = 0;
@@ -88,7 +91,6 @@ public class ChessBoard : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
-                //Debug.Log($"x: {hitPosition.x}, y: {hitPosition.y}");
                 if (_selectedPiece == null)
                 {
                     if (_curHover != -Vector2Int.one && _chessPieces[_curHover.x, _curHover.y] != null)
@@ -145,6 +147,33 @@ public class ChessBoard : MonoBehaviour
     }
 
     //generate
+    private void SetArmy()
+    {
+        List<ChessPieceType> pawnList = new (){
+            ChessPieceType.Pawn,
+            ChessPieceType.Pawn,
+            ChessPieceType.Pawn,
+            ChessPieceType.Pawn,
+            ChessPieceType.Pawn,
+            ChessPieceType.Pawn,
+            ChessPieceType.Pawn,
+            ChessPieceType.Pawn
+        };
+        List <ChessPieceType> figureList = new()
+        {
+            ChessPieceType.Rook,
+            ChessPieceType.Knight,
+            ChessPieceType.Bishop,
+            ChessPieceType.Queen,
+            ChessPieceType.King,
+            ChessPieceType.Bishop,
+            ChessPieceType.Knight,
+            ChessPieceType.Rook
+        };
+        
+        _whiteArmy.SetArmy(pawnList, figureList);
+        _blackArmy.SetArmy(pawnList, figureList);
+    }
     private void GenerateTiles(int tileCountX, int tileCountY)
     {
         yOffset += transform.position.y;
@@ -195,11 +224,11 @@ public class ChessBoard : MonoBehaviour
         for (var x = 0; x < TileCountX; x++)
         {
             //white
-            _chessPieces[x, 1] = SpawnSinglePiece((ChessPieceType)_whiteArmy.ArmyPawnList[x], White);
-            _chessPieces[x, 0] = SpawnSinglePiece((ChessPieceType)_whiteArmy.ArmyFigureList[x], White);
+            _chessPieces[x, 1] = SpawnSinglePiece(_whiteArmy.ArmyPiecesList[0][x], White);
+            _chessPieces[x, 0] = SpawnSinglePiece(_whiteArmy.ArmyPiecesList[1][x], White);
             //black
-            _chessPieces[x, 6] = SpawnSinglePiece((ChessPieceType)_blackArmy.ArmyPawnList[x], Black);
-            _chessPieces[x, 7] = SpawnSinglePiece((ChessPieceType)_blackArmy.ArmyFigureList[x], Black);
+            _chessPieces[x, 6] = SpawnSinglePiece(_blackArmy.ArmyPiecesList[0][x], Black);
+            _chessPieces[x, 7] = SpawnSinglePiece(_blackArmy.ArmyPiecesList[1][x], Black);
         }
         PosAll();
     }
@@ -251,6 +280,7 @@ public class ChessBoard : MonoBehaviour
 
     private bool Move(ChessPiece piece, int x, int y)
     {
+        if (_isPromoting) return false;
         if (piece.curX == x && piece.curY == y || !_selectedMoves.Contains(new Vector2Int(x, y))) return false;
         
         if (piece.type == ChessPieceType.Pawn)
@@ -282,22 +312,16 @@ public class ChessBoard : MonoBehaviour
     }
     private bool Promotion(ChessPiece pawn, int x, int y)
     {
+        promotionScreen.SetActive(true);
         _promoting = pawn;
-        
-        var promotionList = new List<int>
-            {
-                (int)ChessPieceType.Rook,
-                (int)ChessPieceType.Knight,
-                (int)ChessPieceType.Bishop,
-                (int)ChessPieceType.Queen,
-            };
-        
-        
-        CreateButton(0, "Rook", x, y);
-        CreateButton(1, "Knight", x, y);
-        CreateButton(2, "Bishop", x, y);
-        CreateButton(3, "Queen", x, y);
+        var promotionList = pawn.team == 0 ? _whiteArmy.PromotionList : _blackArmy.PromotionList;
 
+        for (int i = 0; i < promotionList.Count; i++)
+        {
+            CreateButton(i, Enum.GetName(typeof(ChessPieceType), promotionList[i]), x, y);
+        }
+
+        _isPromoting = true;
         return true;
     }
     private void GetPromotedPiece(ChessPieceType pieceType, int x, int y)
@@ -310,6 +334,7 @@ public class ChessBoard : MonoBehaviour
         
         OnPieceDestroy(_promoting);
         _promoting = null;
+        _isPromoting = false;
     }
     
     private List<Vector2Int> PreventCheck(ChessPiece piece, List<Vector2Int> possibleMoves)
@@ -472,8 +497,8 @@ public class ChessBoard : MonoBehaviour
         var offset = num * 50;
         
         var newButton = Instantiate(buttonPref, transform);
-        newButton.transform.SetParent(promotionScreen);
-        newButton.transform.position = promotionScreen.position + new Vector3(0, 350 - offset, 0);
+        newButton.transform.SetParent(promotionScreen.transform);
+        newButton.transform.position = promotionScreen.transform.position + new Vector3(0, 350 - offset, 0);
         newButton.transform.rotation = new Quaternion(0, 0, 0, 0);
         
         newButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
@@ -484,6 +509,7 @@ public class ChessBoard : MonoBehaviour
             
             for (int i = 0; i < promotionScreen.transform.childCount; i++)
                 Destroy(promotionScreen.transform.GetChild(i).gameObject);
+            promotionScreen.SetActive(false);
         } );
     }
     

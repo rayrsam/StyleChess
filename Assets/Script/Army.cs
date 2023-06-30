@@ -2,43 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Army {
-    
-    public List<int> ArmyPawnList = new List<int>
+public class Army
+{
+    public AKing ArmyKing;
+
+    public List<List<ChessPieceType>> ArmyPiecesList = new()
     {
-        (int)ChessPieceType.Pawn,
-        (int)ChessPieceType.Pawn,
-        (int)ChessPieceType.Pawn,
-        (int)ChessPieceType.Pawn,
-        (int)ChessPieceType.Pawn,
-        (int)ChessPieceType.Pawn,
-        (int)ChessPieceType.Pawn,
-        (int)ChessPieceType.Pawn
-    };
-    public List<int> ArmyFigureList = new List<int>
-    {
-        (int)ChessPieceType.Rook,
-        (int)ChessPieceType.Knight,
-        (int)ChessPieceType.Bishop,
-        (int)ChessPieceType.Queen,
-        (int)ChessPieceType.King,
-        (int)ChessPieceType.Bishop,
-        (int)ChessPieceType.Knight,
-        (int)ChessPieceType.Rook
+        new List<ChessPieceType>(),
+        new List<ChessPieceType>()
     };
     
-    public List<int> PromotionList = new List<int>
-    {
-        (int)ChessPieceType.Rook,
-        (int)ChessPieceType.Knight,
-        (int)ChessPieceType.Bishop,
-        (int)ChessPieceType.Queen,
-    };
+    public List<ChessPieceType> PromotionList = new();
     
     
-    public void SetArmy(List<int> pawnList, List<int> figureList)
+    public void SetArmy(List<ChessPieceType> pawnList, List<ChessPieceType> figureList)
     {
-        ArmyPawnList = pawnList;
-        ArmyFigureList = figureList;
+        ArmyPiecesList = new List<List<ChessPieceType>> { pawnList, figureList };
+        SetPromotionList();
+    }
+
+    public void SetKing(King king)
+    {
+        ArmyKing = king;
+    }
+
+    private void SetPromotionList()
+    {
+        PromotionList.Clear();
+        foreach (var piece in ArmyPiecesList[1])
+        {
+            if (!PromotionList.Contains(piece) && piece != ChessPieceType.King) PromotionList.Add(piece);
+        }
     }
 }

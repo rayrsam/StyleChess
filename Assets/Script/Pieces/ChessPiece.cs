@@ -19,9 +19,11 @@ public abstract class ChessPiece : MonoBehaviour
     public int curY;
     public ChessPieceType type;
     public int alive = 1;
+
+    public static int PowerCost = 0;
+    public static int StyleCost = 0;
     
-    private Vector3 _desiredPos;
-    private Vector3 _desiredScale;
+    
 
     public abstract List<Vector2Int> GetMoves(ref ChessPiece[,] board, int tileCountX, int tileCountY);
 }
