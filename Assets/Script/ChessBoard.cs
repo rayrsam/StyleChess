@@ -47,8 +47,8 @@ public class ChessBoard : MonoBehaviour
     private const int Black = 1;
     private int _turn = -1;
     
-    private readonly Army _whiteArmy = new Army();
-    private readonly Army _blackArmy = new Army();
+    private Army _whiteArmy;
+    private Army _blackArmy;
 
     private bool _paused;
     private ChessPiece _promoting;
@@ -96,7 +96,7 @@ public class ChessBoard : MonoBehaviour
                     if (_curHover != -Vector2Int.one && _chessPieces[_curHover.x, _curHover.y] != null)
                     {
                         if (_chessPieces[_curHover.x, _curHover.y].team == White && _turn == 0 ||
-                            _chessPieces[_curHover.x, _curHover.y].team == Black && _turn == 1 || true)
+                            _chessPieces[_curHover.x, _curHover.y].team == Black && _turn == 1)
                         {
                             _selectedPiece = _chessPieces[_curHover.x, _curHover.y];
                             _selectedMoves = _hoverMoves;
@@ -149,52 +149,8 @@ public class ChessBoard : MonoBehaviour
     //generate
     private void SetArmy()
     {
-        List<ChessPieceType> whitePawnList = new (){
-            ChessPieceType.None,
-            ChessPieceType.None,
-            ChessPieceType.None,
-            ChessPieceType.None,
-            ChessPieceType.None,
-            ChessPieceType.None,
-            ChessPieceType.None,
-            ChessPieceType.None
-        };
-        List <ChessPieceType> whiteFigureList = new()
-        {
-            ChessPieceType.Champion,
-            ChessPieceType.Hunter,
-            ChessPieceType.Falcon,
-            ChessPieceType.Griffin,
-            ChessPieceType.King,
-            ChessPieceType.Bishop,
-            ChessPieceType.Knight,
-            ChessPieceType.Rook
-        };
-        
-        List<ChessPieceType> blackPawnList = new (){              
-            ChessPieceType.None,                             
-            ChessPieceType.None,                             
-            ChessPieceType.None,                             
-            ChessPieceType.None,                             
-            ChessPieceType.None,                             
-            ChessPieceType.None,                             
-            ChessPieceType.None,                             
-            ChessPieceType.None                              
-        };                                                   
-        List <ChessPieceType> blackFigureList = new()             
-        {                                                    
-            ChessPieceType.Champion,
-            ChessPieceType.Hunter,
-            ChessPieceType.Falcon,
-            ChessPieceType.Griffin,
-            ChessPieceType.King,
-            ChessPieceType.Bishop,
-            ChessPieceType.Knight,
-            ChessPieceType.Rook                    
-        };                                                   
-        
-        _whiteArmy.SetArmy(whitePawnList, whiteFigureList);
-        _blackArmy.SetArmy(blackPawnList, blackFigureList);
+        _whiteArmy = RosterHolder.WhiteArmy;
+        _blackArmy = RosterHolder.BlackArmy;
     }
     private void GenerateTiles(int tileCountX, int tileCountY)
     {

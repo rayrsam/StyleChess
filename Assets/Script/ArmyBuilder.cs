@@ -22,7 +22,7 @@ public class ArmyBuilder : MonoBehaviour
     
     [Header("Prefabs && Materials")] 
     [SerializeField] private GameObject[] piecesPrefabs;
-    [SerializeField] private Material[] teamMaterials;
+    [SerializeField] private Material material;
     [SerializeField] private GameObject promotionButtonPrefab;
     [SerializeField] private GameObject builderButtonPrefab;
     
@@ -45,7 +45,7 @@ public class ArmyBuilder : MonoBehaviour
     private const int White = 0;
     private const int Black = 1;
 
-    private readonly Army _whiteArmy = new Army();
+    private Army _whiteArmy = new Army();
 
     private bool _paused;
     private ChessPiece _promoting;
@@ -60,7 +60,7 @@ public class ArmyBuilder : MonoBehaviour
         GenerateTiles(TileCountX, TileCountY);
         SetArmy();
         SpawnPieces();
-        CreatePiecesList(0);
+        CreatePiecesList(1);
     }
     private void Update()
     {
@@ -94,34 +94,11 @@ public class ArmyBuilder : MonoBehaviour
             else if (_curHover != -Vector2Int.one && _selectedPiece == null) OnSelectionDiscard();
         }
     }
-
     
-
     private void SetArmy()
     {
-        List<ChessPieceType> pawnList = new (){
-            ChessPieceType.Pawn,
-            ChessPieceType.Pawn,
-            ChessPieceType.Pawn,
-            ChessPieceType.Pawn,
-            ChessPieceType.Pawn,
-            ChessPieceType.Pawn,
-            ChessPieceType.Pawn,
-            ChessPieceType.Pawn
-        };
-        List <ChessPieceType> figureList = new()
-        {
-            ChessPieceType.Rook,
-            ChessPieceType.Knight,
-            ChessPieceType.Bishop,
-            ChessPieceType.Queen,
-            ChessPieceType.King,
-            ChessPieceType.Bishop,
-            ChessPieceType.Knight,
-            ChessPieceType.Rook
-        };
-        
-        _whiteArmy.SetArmy(pawnList, figureList);
+        if (RosterHolder.RedactedArmy == 0) _whiteArmy = RosterHolder.WhiteArmy;
+        else _whiteArmy = RosterHolder.BlackArmy;
     }
 
     private void InTestAction(Vector2Int hitPosition)
@@ -148,21 +125,24 @@ public class ArmyBuilder : MonoBehaviour
     }
     private void InBuildAction(Vector2Int hitPosition)
     {
-        if (hitPosition.y > 1 || hitPosition == -Vector2Int.one) return;
+        if (hitPosition.y > 0 || hitPosition == -Vector2Int.one) return;
 
         _pickedTile = new Vector2Int(hitPosition.x, hitPosition.y);
         if (_pickedTile != -Vector2Int.one && _pickedPieceType != 0)
         {
             var tile = _chessPieces[_pickedTile.x, _pickedTile.y];
-            if (tile != null) OnPieceDestroy(tile);
+            if (tile != null)
+            {
+                if (tile.type == ChessPieceType.King) return;
+                OnPieceDestroy(tile);
+            }
             _chessPieces[_pickedTile.x, _pickedTile.y] = SpawnSinglePiece(_pickedPieceType, White);
             PosSingle(_pickedTile.x, _pickedTile.y);
             _pickedTile = -Vector2Int.one;
             _pickedPieceType = 0;
         }
     }
-    
-    
+
     //set layers
     private void OnSelectTile(Vector2Int hitPosition)
     {
@@ -261,10 +241,10 @@ public class ArmyBuilder : MonoBehaviour
         if (type == ChessPieceType.King)
         {
             _whiteArmy.SetKing((King)piece);
-            Debug.Log("Assigning");
+            //Debug.Log("Assigning");
         }
 
-        piece.GetComponent<MeshRenderer>().material = teamMaterials[team];
+        piece.GetComponent<MeshRenderer>().material = material;
         return piece;
     }
     
@@ -388,10 +368,6 @@ public class ArmyBuilder : MonoBehaviour
         List<ChessPieceType> targetPool;
         switch (type)
         {
-            case 0:
-                targetPool = king.GetAvailablePawns();
-                //Debug.Log($"{targetPool.Count}");
-                break;
             case 1:
                 targetPool = king.GetAvailableLight();
                 break;
@@ -421,10 +397,21 @@ public class ArmyBuilder : MonoBehaviour
         
         newButton.GetComponent<Button>().onClick.AddListener(delegate
         {
+            //Debug.Log($"{piece}");
             _pickedPieceType = piece;
         } );
     }
-    
+
+    public void Save()
+    {
+        for (var i = 0; i < TileCountX; i++)
+        {
+            //Debug.Log($"{_chessPieces[i, 0].type}");
+            _whiteArmy.ArmyPiecesList[1][i] = _chessPieces[i, 0].type;
+        }
+        RosterHolder.SetArmy(_whiteArmy);
+        Exit();
+    }
     public void Exit()
     {
         SceneManager.LoadScene(0);

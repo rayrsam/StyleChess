@@ -8,11 +8,37 @@ public class Army
 
     public List<List<ChessPieceType>> ArmyPiecesList = new()
     {
-        new List<ChessPieceType>(),
-        new List<ChessPieceType>()
+        new List<ChessPieceType>
+        {
+            ChessPieceType.Pawn,
+            ChessPieceType.Pawn,
+            ChessPieceType.Pawn,
+            ChessPieceType.Pawn,
+            ChessPieceType.Pawn,
+            ChessPieceType.Pawn,
+            ChessPieceType.Pawn,
+            ChessPieceType.Pawn
+        },
+        new List<ChessPieceType>
+        {
+            ChessPieceType.Rook,
+            ChessPieceType.Knight,
+            ChessPieceType.Bishop,
+            ChessPieceType.Queen,
+            ChessPieceType.King,
+            ChessPieceType.Bishop,
+            ChessPieceType.Knight,
+            ChessPieceType.Rook
+        }
     };
     
-    public List<ChessPieceType> PromotionList = new();
+    public List<ChessPieceType> PromotionList = new()
+    {
+        ChessPieceType.Rook,
+        ChessPieceType.Knight,
+        ChessPieceType.Bishop,
+        ChessPieceType.Queen,
+    };
     
     
     public void SetArmy(List<ChessPieceType> pawnList, List<ChessPieceType> figureList)

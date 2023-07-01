@@ -1,16 +1,16 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public static class RosterHolder
 {
-    private static Army WhiteArmy
-    {
-        get => WhiteArmy;
-        set => WhiteArmy = value;
-    }
+    public static int RedactedArmy = 0;
 
-    private static Army BlackArmy
+    public static Army WhiteArmy = new Army();
+    public static Army BlackArmy = new Army();
+
+    public static void SetArmy(Army army)
     {
-        get => BlackArmy;
-        set => BlackArmy = value;
+        if (RedactedArmy == 0) WhiteArmy.SetArmy(army.ArmyPiecesList[0], army.ArmyPiecesList[1]);
+        else BlackArmy.SetArmy(army.ArmyPiecesList[0], army.ArmyPiecesList[1]);
     }
 }

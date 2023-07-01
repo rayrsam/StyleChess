@@ -28,7 +28,5 @@ public abstract class ChessPiece : MonoBehaviour
     public static int PowerCost = 0;
     public static int StyleCost = 0;
     
-    
-
     public abstract List<Vector2Int> GetMoves(ref ChessPiece[,] board, int tileCountX, int tileCountY);
 }

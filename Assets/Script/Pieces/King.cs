@@ -4,14 +4,21 @@ using UnityEngine.Serialization;
 
 public class King : AKing
 {
-    private List<ChessPieceType> _availablePawns = new() { ChessPieceType.Pawn };
     private new List<ChessPieceType> _availableLightPieces = new()
     {
-        ChessPieceType.Rook,
         ChessPieceType.Knight,
-        ChessPieceType.Bishop
+        ChessPieceType.Bishop,
+        ChessPieceType.Champion,
+        ChessPieceType.Hunter,
+        ChessPieceType.Falcon,
+        
     };
-    private new List<ChessPieceType> _availableHeavyPieces = new(){ ChessPieceType.Queen };
+    private new List<ChessPieceType> _availableHeavyPieces = new()
+    {
+        ChessPieceType.Rook,
+        ChessPieceType.Griffin,
+        ChessPieceType.Queen
+    };
     
     public new static int PowerPointsLimit;
     public new static int StylePointsLimit;
@@ -41,13 +48,7 @@ public class King : AKing
         }
         return moves;
     }
-
-
-    public override List<ChessPieceType> GetAvailablePawns()
-    {
-        return _availablePawns;
-    }
-
+    
     public override List<ChessPieceType> GetAvailableLight()
     {
         return _availableLightPieces;
